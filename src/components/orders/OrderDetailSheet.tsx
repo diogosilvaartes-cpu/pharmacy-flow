@@ -12,7 +12,9 @@ interface OrderDetailSheetProps {
 }
 
 export function OrderDetailSheet({ order, onClose, onAction }: OrderDetailSheetProps) {
-  const { data: items = [] } = useOrderItems(order?.id || '');
+  // Use embedded items from join if available, otherwise fetch separately
+  const { data: fetchedItems = [] } = useOrderItems(order?.id || '');
+  const items = order?.itens_pedido ?? fetchedItems;
 
   if (!order) return null;
 
@@ -34,24 +36,24 @@ export function OrderDetailSheet({ order, onClose, onAction }: OrderDetailSheetP
 
           {/* Cliente */}
           <Section title="Cliente">
-            <InfoRow label="Nome" value={order.cliente_nome} />
-            {order.cliente_telefone && (
+            <InfoRow label="Nome" value={order.customer_name} />
+            {order.customer_phone && (
               <InfoRow
                 label="Telefone"
                 value={
                   <a
-                    href={`https://wa.me/${formatPhone(order.cliente_telefone)}`}
+                    href={`https://wa.me/${formatPhone(order.customer_phone)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary hover:underline"
                   >
-                    📱 {order.cliente_telefone}
+                    📱 {order.customer_phone}
                   </a>
                 }
               />
             )}
-            {order.cliente_observacoes && (
-              <InfoRow label="Observações" value={order.cliente_observacoes} />
+            {order.customer_notes && (
+              <InfoRow label="Observações" value={order.customer_notes} />
             )}
           </Section>
 
@@ -78,16 +80,16 @@ export function OrderDetailSheet({ order, onClose, onAction }: OrderDetailSheetP
 
           {/* Entrega */}
           <Section title="Entrega">
-            <InfoRow label="Tipo" value={order.tipo_fulfillment === 'entrega' ? '🚚 Entrega' : '🏪 Retirada'} />
-            {order.endereco && <InfoRow label="Endereço" value={order.endereco} />}
-            {order.pessoa_recebimento && <InfoRow label="Recebimento" value={order.pessoa_recebimento} />}
+            <InfoRow label="Tipo" value={order.fulfillment_type === 'entrega' ? '🚚 Entrega' : '🏪 Retirada'} />
+            {order.address && <InfoRow label="Endereço" value={order.address} />}
+            {order.recipient_name && <InfoRow label="Recebimento" value={order.recipient_name} />}
           </Section>
 
           {/* Pagamento */}
           <Section title="Pagamento">
-            {order.pagamento && <InfoRow label="Forma" value={order.pagamento} />}
-            {order.valor_total != null && (
-              <InfoRow label="Valor" value={`R$ ${order.valor_total.toFixed(2)}`} mono />
+            {order.payment_method && <InfoRow label="Forma" value={order.payment_method} />}
+            {order.total_value != null && (
+              <InfoRow label="Valor" value={`R$ ${order.total_value.toFixed(2)}`} mono />
             )}
             {order.pix_link && (
               <InfoRow

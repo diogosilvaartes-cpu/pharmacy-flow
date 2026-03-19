@@ -8,7 +8,7 @@ export function useOrders() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('painel_pedidos')
-        .select('*')
+        .select('*,itens_pedido(*)')
         .order('created_at', { ascending: false });
 
       if (error) throw error;

@@ -31,7 +31,7 @@ export function OrderActions({ order, onAction }: OrderActionsProps) {
     }
   };
 
-  const isPix = order.pagamento?.toLowerCase().includes('pix');
+  const isPix = order.payment_method?.toLowerCase().includes('pix');
 
   const ActionButton = ({ label, onClick, variant = 'default' }: { label: string; onClick: () => void; variant?: string }) => (
     <motion.button
@@ -68,7 +68,7 @@ export function OrderActions({ order, onAction }: OrderActionsProps) {
             {isPix && (
               <ActionButton
                 label="💰 Gerar PIX"
-                onClick={() => handleAction(() => gerarPix(order.id, order.valor_total || 0), 'PIX')}
+                onClick={() => handleAction(() => gerarPix(order.id, order.total_value || 0), 'PIX')}
               />
             )}
           </>
@@ -82,7 +82,7 @@ export function OrderActions({ order, onAction }: OrderActionsProps) {
         )}
 
         {order.status === 'em_separacao' && (
-          order.tipo_fulfillment === 'retirada' ? (
+          order.fulfillment_type === 'retirada' ? (
             <ActionButton
               label="✅ Pronto p/ Retirada"
               variant="primary"
