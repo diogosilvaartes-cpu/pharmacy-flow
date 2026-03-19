@@ -6,7 +6,7 @@ import { KanbanColumn } from './KanbanColumn';
 import { OrderDetailSheet } from '@/components/orders/OrderDetailSheet';
 
 export function KanbanBoard() {
-  const { data: orders = [], isLoading } = useOrders();
+  const { data: orders = [], isLoading, isError, error } = useOrders();
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const queryClient = useQueryClient();
 
@@ -16,7 +16,6 @@ export function KanbanBoard() {
   const getColumnOrders = (statuses: string[]) => {
     return orders.filter((o) => {
       if (!statuses.includes(o.status)) return false;
-      // For completed/cancelled, only show last 24h
       if (['entregue', 'retirado', 'cancelado'].includes(o.status)) {
         return now - new Date(o.updated_at || o.created_at).getTime() < twentyFourHours;
       }
@@ -25,6 +24,17 @@ export function KanbanBoard() {
   };
 
   const refresh = () => queryClient.invalidateQueries({ queryKey: ['orders'] });
+
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-64px)]">
+        <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-6 max-w-md text-center space-y-2">
+          <p className="text-sm font-medium text-destructive">Erro ao carregar pedidos</p>
+          <p className="text-xs text-muted-foreground">{String(error)}</p>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (

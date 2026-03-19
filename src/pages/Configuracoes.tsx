@@ -6,7 +6,7 @@ export default function ConfiguracoesPage() {
   const [baseUrl, setBaseUrl] = useState('');
 
   useEffect(() => {
-    setBaseUrl(localStorage.getItem('n8n_base_url') || '');
+    setBaseUrl(localStorage.getItem('n8n_base_url') || 'https://n8n.faturemais.shop');
   }, []);
 
   const save = () => {

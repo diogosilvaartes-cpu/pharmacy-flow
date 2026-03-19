@@ -14,7 +14,7 @@ export function useOrders() {
       if (error) throw error;
       return (data || []) as Order[];
     },
-    refetchInterval: 30000,
+    refetchInterval: 15000,
   });
 }
 
