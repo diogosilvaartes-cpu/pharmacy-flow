@@ -10,7 +10,11 @@ export default function ConfiguracoesPage() {
   }, []);
 
   const save = () => {
-    localStorage.setItem('n8n_base_url', baseUrl.replace(/\/$/, ''));
+    let url = baseUrl.replace(/\/$/, '');
+    // Remove webhook paths if user pasted a full webhook URL
+    url = url.replace(/\/webhook\/.*$/, '');
+    setBaseUrl(url);
+    localStorage.setItem('n8n_base_url', url);
     toast.success('URL salva com sucesso');
   };
 
