@@ -46,6 +46,7 @@ export function DispatchModal({ open, onClose, pedidoId, onDispatched }: Dispatc
       <DialogContent className="bg-card border-secondary">
         <DialogHeader>
           <DialogTitle className="text-foreground">Selecionar Entregador</DialogTitle>
+          <p className="text-sm text-muted-foreground">Escolha um entregador para despachar o pedido</p>
         </DialogHeader>
         <div className="space-y-2 max-h-64 overflow-y-auto">
           {entregadores.length === 0 && (
