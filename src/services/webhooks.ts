@@ -1,10 +1,11 @@
+const DEFAULT_N8N_URL = 'https://n8n.faturemais.shop';
+
 function getBaseUrl(): string {
-  return localStorage.getItem('n8n_base_url') || '';
+  return localStorage.getItem('n8n_base_url') || DEFAULT_N8N_URL;
 }
 
 async function callWebhook(path: string, body: Record<string, unknown>): Promise<void> {
   const baseUrl = getBaseUrl();
-  if (!baseUrl) throw new Error('URL do n8n não configurada. Vá em Configurações.');
 
   const url = `${baseUrl.replace(/\/$/, '')}${path}`;
   const res = await fetch(url, {
