@@ -12,33 +12,34 @@ export type OrderStatus =
 
 export type FulfillmentType = 'entrega' | 'retirada';
 
-export interface Order {
-  id: string;
-  status: OrderStatus;
-  tipo_fulfillment: FulfillmentType;
-  endereco: string | null;
-  pagamento: string | null;
-  valor_total: number | null;
-  pix_link: string | null;
-  pessoa_recebimento: string | null;
-  resumo: string | null;
-  created_at: string;
-  updated_at: string;
-  cliente_nome: string;
-  cliente_telefone: string | null;
-  cliente_observacoes: string | null;
-  entregador_id: string | null;
-  entregador_nome: string | null;
-  rota_link: string | null;
-  status_entrega: string | null;
-}
-
 export interface OrderItem {
   id: string;
   pedido_id: string;
   item: string;
   quantidade: number;
   observacao: string | null;
+}
+
+export interface Order {
+  id: string;
+  status: OrderStatus;
+  fulfillment_type: FulfillmentType;
+  address: string | null;
+  payment_method: string | null;
+  total_value: number | null;
+  pix_link: string | null;
+  recipient_name: string | null;
+  resumo: string | null;
+  created_at: string;
+  updated_at: string;
+  customer_name: string;
+  customer_phone: string | null;
+  customer_notes: string | null;
+  delivery_person_id: string | null;
+  entregador_nome: string | null;
+  rota_link: string | null;
+  status_entrega: string | null;
+  itens_pedido?: OrderItem[];
 }
 
 export interface Entregador {

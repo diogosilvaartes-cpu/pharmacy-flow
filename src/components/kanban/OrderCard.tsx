@@ -36,16 +36,16 @@ export function OrderCard({ order, onClick, onAction }: OrderCardProps) {
       {/* Header */}
       <div className="flex items-start justify-between mb-2">
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-medium text-foreground truncate">{order.cliente_nome}</p>
-          {order.cliente_telefone && (
+          <p className="text-sm font-medium text-foreground truncate">{order.customer_name}</p>
+          {order.customer_phone && (
             <a
-              href={`https://wa.me/${formatPhone(order.cliente_telefone)}`}
+              href={`https://wa.me/${formatPhone(order.customer_phone)}`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
               className="text-xs text-muted-foreground hover:text-primary transition-colors"
             >
-              📱 {order.cliente_telefone}
+              📱 {order.customer_phone}
             </a>
           )}
         </div>
@@ -60,18 +60,18 @@ export function OrderCard({ order, onClick, onAction }: OrderCardProps) {
           {getStatusLabel(order.status)}
         </span>
         <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
-          {order.tipo_fulfillment === 'entrega' ? '🚚 Entrega' : '🏪 Retirada'}
+          {order.fulfillment_type === 'entrega' ? '🚚 Entrega' : '🏪 Retirada'}
         </span>
       </div>
 
       {/* Info */}
       <div className="space-y-1 mb-3">
-        {order.pagamento && (
-          <p className="text-xs text-muted-foreground">💳 {order.pagamento}</p>
+        {order.payment_method && (
+          <p className="text-xs text-muted-foreground">💳 {order.payment_method}</p>
         )}
-        {order.valor_total != null && (
+        {order.total_value != null && (
           <p className="text-xs font-mono text-foreground">
-            R$ {order.valor_total.toFixed(2)}
+            R$ {order.total_value.toFixed(2)}
           </p>
         )}
         {order.resumo && (
